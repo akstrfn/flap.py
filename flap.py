@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 from copy import copy
 
 import pyglet
@@ -7,10 +8,12 @@ import settings
 from sprites import Bird, Background, Floor, Pipe
 from utils import get_sprite, check_collision
 
-
-
 def main(callback=None):
 
+    #global score set to -1 because on first pipe score is increased
+    global score
+    score = -1
+    
     # Initialize window
 
     window = pyglet.window.Window(width=settings.window_width * settings.scale,
@@ -18,10 +21,12 @@ def main(callback=None):
                                   resizable=False)
     window.clear()
 
+    scoreLabel = pyglet.text.Label("0", font_size=40, x=window.width//2, y=window.height, anchor_x='center', anchor_y='top')
+
     # To pass to the callback
     def click():
         window.dispatch_event('on_mouse_press')
-
+                         
     # Set up sprites
 
     bird = Bird(window=window)
@@ -54,6 +59,7 @@ def main(callback=None):
 
     def update(dt):
 
+        global score 
         if not state.started:
             return
 
@@ -65,6 +71,10 @@ def main(callback=None):
                 pipe = Pipe(space=75 * settings.scale, window=window)
                 pipes.append(pipe)
                 state.t_to_next_pipe += 2
+                # update score -- problem is for the first one
+                score += 1
+                # directly setting text on 
+                scoreLabel._set_text(str(score))
 
             for pipe in copy(pipes):
                 if not pipe.visible:
@@ -88,8 +98,8 @@ def main(callback=None):
             bird.stop()
 
 
-    @window.event
-    def on_mouse_press(*args):
+    # function to be used in key & mouse events because we want to play with keys as well
+    def still_playing():
         if bird.alive:
             bird.flap()
         elif not state.started:
@@ -101,6 +111,13 @@ def main(callback=None):
             pipes.clear()
             state.reset()
 
+    @window.event
+    def on_mouse_press(*args):
+        still_playing()
+
+    @window.event
+    def on_key_press(*args):
+        still_playing()
 
     @window.event
     def on_draw():
@@ -131,7 +148,8 @@ def main(callback=None):
             array = array[::settings.scale, ::settings.scale]
 
             callback(array, click, alive=bird.alive)
-
+        # draw score
+        scoreLabel.draw()
 
     gl.glEnable(gl.GL_BLEND)
     gl.glBlendFunc(gl.GL_SRC_ALPHA, gl.GL_ONE_MINUS_SRC_ALPHA)
@@ -142,5 +160,5 @@ def main(callback=None):
 
 
 if __name__ == "__main__":
-
+    
     main()
