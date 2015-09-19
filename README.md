@@ -51,7 +51,7 @@ can click twice to start again.
 Missing features
 ================
 
-* Keeping track of score
+* Sounds
 * Tilting bird when flying up and down
 
 Credits
