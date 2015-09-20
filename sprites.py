@@ -91,7 +91,6 @@ class Bird(object):
     def __init__(self, window):
 
         # Load bird in different states
-
         self.sprite_lib = [get_sprite('bird1.png'),
                            get_sprite('bird2.png'),
                            get_sprite('bird3.png')]

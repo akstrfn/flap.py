@@ -5,7 +5,7 @@ from pyglet import gl
 
 import settings
 
-
+# should be called get texture!!!
 def get_sprite(filename):
     image = pyglet.image.load(os.path.join('sprites', filename))
     texture = image.get_texture()
@@ -14,6 +14,14 @@ def get_sprite(filename):
     texture.height = texture.height * settings.scale
     return texture
 
+# this is most likely the way to get if one wants to rotate the bird
+# this is based on brief exploration of texture and sprit object
+# namely sprit object (image object) has rotation that is not limited to full 
+# 90 degree rotation like texture object
+# should be checked further on
+def get_sprite_for_real(filename):
+    image = pyglet.image.load(os.path.join('sprites', filename))
+    return sprite
 
 class BBox(object):
     def __init__(self, x, y, dx, dy):
