@@ -135,7 +135,6 @@ class Bird(object):
         self.vy = 100 * settings.scale
 
     def stop(self):
-        print("stop")
         self.state = 0
         self.vy = 0
         self.ay = 0
@@ -150,7 +149,6 @@ class Bird(object):
     def update(self, dt):
 
         # Flapping
-
         self.flap_t += dt
 
         if self.flap_t > self.flap_dt:
@@ -158,9 +156,8 @@ class Bird(object):
             self.flap_t = 0
 
         # Physics
-
         self.vy += dt * self.ay
-        self.y += dt * self.vy 
+        self.y  += dt * self.vy 
 
     def blit(self):
         self.sprite.blit(self.x - 0.5 * self.dx,
