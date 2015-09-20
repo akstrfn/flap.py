@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 from copy import copy
 
 import pyglet
@@ -53,6 +53,8 @@ def main(callback=None):
         def reset(self):
             self.started = False
             self.t_to_next_pipe = 2
+            # reset score label
+            scoreLabel._set_text("0")
 
     state = GameState()
 
@@ -60,6 +62,7 @@ def main(callback=None):
     def update(dt):
 
         global score 
+
         if not state.started:
             return
 
@@ -96,9 +99,11 @@ def main(callback=None):
 
         if bird.dying and bird.y < -100:
             bird.stop()
+            # reset the score on death
+            score = -1
 
 
-    # function to be used in key & mouse events because we want to play with keys as well
+    # function to be used in key & mouse events
     def still_playing():
         if bird.alive:
             bird.flap()
@@ -160,5 +165,5 @@ def main(callback=None):
 
 
 if __name__ == "__main__":
-    
+
     main()

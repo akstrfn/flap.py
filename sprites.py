@@ -135,6 +135,7 @@ class Bird(object):
         self.vy = 100 * settings.scale
 
     def stop(self):
+        print("stop")
         self.state = 0
         self.vy = 0
         self.ay = 0
@@ -159,7 +160,7 @@ class Bird(object):
         # Physics
 
         self.vy += dt * self.ay
-        self.y += self.vy * dt
+        self.y += dt * self.vy 
 
     def blit(self):
         self.sprite.blit(self.x - 0.5 * self.dx,
